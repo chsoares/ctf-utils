@@ -19,3 +19,6 @@ end
 function ctf_question
     echo (set_color magenta)"  "$argv(set_color normal)
 end
+function ctf_title
+    echo (set_color magenta --bold)"  "$argv(set_color normal)
+end
