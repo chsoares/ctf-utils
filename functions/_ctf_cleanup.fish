@@ -1,5 +1,5 @@
-function ctf_cleanup
-    source "$CTF_HOME/functions/ctf_colors.fish"
+function _ctf_cleanup
+    source "$CTF_HOME/functions/_ctf_colors.fish"
 
     # 0. Load global env if not already loaded
     if test -f ~/Lab/env.fish

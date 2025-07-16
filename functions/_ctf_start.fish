@@ -1,5 +1,5 @@
-function ctf_start
-    source "$CTF_HOME/functions/ctf_colors.fish"
+function _ctf_start
+    source "$CTF_HOME/functions/_ctf_colors.fish"
 
     # === 1. Dependency check ===
     set -l dependencies ntpd gnome-text-editor

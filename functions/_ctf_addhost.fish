@@ -1,5 +1,5 @@
-function ctf_addhost
-    source "$CTF_HOME/functions/ctf_colors.fish"
+function _ctf_addhost
+    source "$CTF_HOME/functions/_ctf_colors.fish"
 
     # === 1. Argument validation ===
     # Argument validation

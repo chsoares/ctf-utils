@@ -1,6 +1,6 @@
 
 function ctf
-    source "$CTF_HOME/functions/ctf_colors.fish"
+    source "$CTF_HOME/functions/_ctf_colors.fish"
     set -l commands start cleanup addhost env
 
     if test (count $argv) -eq 0
@@ -14,13 +14,13 @@ function ctf
     if contains -- $subcmd $commands
         switch $subcmd
             case start
-                ctf_start $argv
+                _ctf_start $argv
             case cleanup
-                ctf_cleanup $argv
+                _ctf_cleanup $argv
             case addhost
-                ctf_addhost $argv
+                _ctf_addhost $argv
             case env
-                ctfenv $argv
+                _ctf_env $argv
         end
         return $status
     else
