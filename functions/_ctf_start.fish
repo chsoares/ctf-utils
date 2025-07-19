@@ -18,7 +18,7 @@ function _ctf_start
 
     set -l box $argv[1]
     set -l ip $argv[2]
-    set -l base_dir ~/Lab/labs
+    set -l base_dir ~/Lab/boxes
     set -l box_dir $base_dir/$box
     set -l box_dir_zero $base_dir/0_$box
 

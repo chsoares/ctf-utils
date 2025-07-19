@@ -19,7 +19,7 @@ function _ctf_cleanup
     end
 
     # 2. Move box directory from 0_<box> to <box>
-    set -l base_dir ~/Lab/labs
+    set -l base_dir ~/Lab/boxes
     set -l new_box_dir $base_dir/$box
     if test -d $boxpwd
         mv $boxpwd $new_box_dir
