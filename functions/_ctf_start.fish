@@ -97,7 +97,7 @@ function _ctf_start
 
     # Sync time
     ctf_info "Syncing time with target box"
-    ntpdate $ip
+    sudo ntpdate $ip
 
     ctf_success "Happy hacking! 😉"
 end

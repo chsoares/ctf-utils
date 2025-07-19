@@ -48,7 +48,7 @@ function _ctf_cleanup
 
     # 6. Sync time with public NTP
     ctf_info "Syncing time with pool.ntp.org"
-    sudo ntpd -q -g -n -p pool.ntp.org
+    sudo ntpdate pool.ntp.org
 
     ctf_success "Cleanup complete!"
 end
