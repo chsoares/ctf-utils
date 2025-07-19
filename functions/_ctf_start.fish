@@ -96,8 +96,8 @@ function _ctf_start
     grep "^$ip" /etc/hosts --color=never
 
     # Sync time
-    ctf_info "Syncing time with target box (ntpd -q -g -n $ip)"
-    sudo ntpd -q -g -n -p $ip
+    ctf_info "Syncing time with target box"
+    ntpdate $ip
 
     ctf_success "Happy hacking! 😉"
 end

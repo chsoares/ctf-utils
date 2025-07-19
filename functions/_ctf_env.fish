@@ -40,6 +40,7 @@ function _ctf_env
                 ctf_info "Added $var to $boxenv"
             end
             cp $boxenv ~/Lab/env.fish
+            source ~/Lab/env.fish
             ctf_info "Updated global env.fish"
         case edit
             if test -f $boxenv
