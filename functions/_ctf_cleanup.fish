@@ -29,12 +29,12 @@ function _ctf_cleanup
         return 1
     end
 
-    # 3. Ensure env.fish is named correctly (should already be)
-    if test -f $new_box_dir/env.fish
-        ctf_info "env.fish is present in $new_box_dir"
-    else
-        ctf_warn "env.fish not found in $new_box_dir"
-    end
+    # # 3. Ensure env.fish is named correctly (should already be)
+    # if test -f $new_box_dir/env.fish
+    #     ctf_info "env.fish is present in $new_box_dir"
+    # else
+    #     ctf_warn "env.fish not found in $new_box_dir"
+    # end
 
     # 4. Reset /etc/hosts to default (localhost only)
     echo "127.0.0.1   localhost" | sudo tee /etc/hosts > /dev/null
