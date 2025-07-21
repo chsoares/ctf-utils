@@ -9,9 +9,12 @@ function _ctf_cleanup
         return 1
     end
 
+    cd ~
+    
     # 1. Backup /etc/hosts to box directory
     if test -d $boxpwd
         sudo cp /etc/hosts $boxpwd/hosts.bak
+        sudo chown chsoares:chsoares $boxpwd/hosts.bak
         ctf_info "Backed up /etc/hosts to $boxpwd/hosts.bak"
     else
         ctf_error "Box directory $boxpwd not found."

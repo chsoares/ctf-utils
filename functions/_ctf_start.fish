@@ -35,6 +35,7 @@ function _ctf_start
 
         if test -f env.fish
             ctf_info "Sourcing environment variables from env.fish"
+            cp env.fish ~/Lab/env.fish
             source env.fish
         else
             ctf_warn "env.fish not found in $box_dir"
@@ -42,7 +43,7 @@ function _ctf_start
 
         if test -f hosts.bak
             ctf_info "Restoring /etc/hosts from hosts.bak"
-            sudo cp hosts.bak /etc/hosts
+            sudo cat hosts.bak | tee /etc/hosts
         else
             ctf_warn "hosts.bak not found in $box_dir"
         end
@@ -76,14 +77,15 @@ function _ctf_start
     echo "set -x boxpwd $boxpwd" >> env.fish
 
     # Export variables to session
-    source env.fish
     cp env.fish ~/Lab/env.fish
 
     ctf_info "Created directory at $boxpwd"
+    echo ""
     ctf_info "\$arch is set to $arch"
     ctf_info "\$ip is set to $ip"
     ctf_info "\$box is set to $box"
     ctf_info "\$url is set to $url"
+    echo ""
 
     # Add to /etc/hosts
     if grep -q "^$ip" /etc/hosts
@@ -96,8 +98,11 @@ function _ctf_start
     grep "^$ip" /etc/hosts --color=never
 
     # Sync time
+    echo ""
     ctf_info "Syncing time with target box"
     sudo ntpdate $ip
+    echo ""
 
     ctf_success "Happy hacking! 😉"
+    source ~/Lab/env.fish
 end
