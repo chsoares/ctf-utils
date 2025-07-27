@@ -21,6 +21,12 @@ function _ctf_cleanup
         return 1
     end
 
+    # 4. Reset /etc/hosts to default (localhost only)
+    echo "127.0.0.1   localhost" | sudo tee /etc/hosts > /dev/null
+    ctf_info "/etc/hosts reset to default (localhost only)"
+
+    echo ""
+
     # 2. Move box directory from 0_<box> to <box>
     set -l base_dir ~/Lab/boxes
     set -l new_box_dir $base_dir/$box
@@ -39,9 +45,7 @@ function _ctf_cleanup
     #     ctf_warn "env.fish not found in $new_box_dir"
     # end
 
-    # 4. Reset /etc/hosts to default (localhost only)
-    echo "127.0.0.1   localhost" | sudo tee /etc/hosts > /dev/null
-    ctf_info "/etc/hosts reset to default (localhost only)"
+
 
     # 5. Remove global env file
     if test -f ~/Lab/env.fish
@@ -49,9 +53,12 @@ function _ctf_cleanup
         ctf_info "Removed global env.fish"
     end
 
+    echo ""
+
     # 6. Sync time with public NTP
     ctf_info "Syncing time with pool.ntp.org"
     sudo ntpdate pool.ntp.org
 
+    echo ""
     ctf_success "Cleanup complete!"
 end
