@@ -68,6 +68,7 @@ function _ctf_start
 
     mkdir -p $boxpwd
     cd $boxpwd
+    mkdir screenshots
 
     # Generate env.fish
     echo "set -x arch $arch_ip" > env.fish
