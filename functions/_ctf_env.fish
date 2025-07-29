@@ -28,11 +28,11 @@ function _ctf_env
             end
             set -l var $argv[2]
             set -l value $argv[3]
-            set -l line "set -x $var $value"
+            set -l line "set -gx $var $value"
 
-            if grep -q "set -x $var " $boxenv
+            if grep -q "set -gx $var " $boxenv
                 # Replace the line
-                sed -i "s|set -x $var .*|$line|" $boxenv
+                sed -i "s|set -gx $var .*|$line|" $boxenv
                 ctf_info "Updated $var in $boxenv"
             else
                 # Add the line

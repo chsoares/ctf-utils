@@ -71,11 +71,11 @@ function _ctf_start
     mkdir screenshots
 
     # Generate env.fish
-    echo "set -x arch $arch_ip" > env.fish
-    echo "set -x box $box" >> env.fish
-    echo "set -x ip $ip" >> env.fish
-    echo "set -x url $url" >> env.fish
-    echo "set -x boxpwd $boxpwd" >> env.fish
+    echo "set -gx arch $arch_ip" > env.fish
+    echo "set -gx box $box" >> env.fish
+    echo "set -gx ip $ip" >> env.fish
+    echo "set -gx url $url" >> env.fish
+    echo "set -gx boxpwd $boxpwd" >> env.fish
 
     # Export variables to session
     cp env.fish ~/Lab/env.fish
