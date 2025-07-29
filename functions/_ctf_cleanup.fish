@@ -47,8 +47,22 @@ function _ctf_cleanup
 
 
 
-    # 5. Remove global env file
+    # 5. Unset environment variables from global env.fish
     if test -f ~/Lab/env.fish
+        ctf_info "Unsetting environment variables from global env.fish"
+        
+        # Read env.fish and extract variable names
+        set -l env_vars (grep -E '^set -g[x]? ' ~/Lab/env.fish | sed -E 's/^set -g[x]? ([A-Za-z_][A-Za-z0-9_]*).*/\1/')
+        
+        # Unset each variable
+        for var in $env_vars
+            if set -q $var
+                set -e $var
+                ctf_info "Unset variable: $var"
+            end
+        end
+        
+        # Remove global env file
         rm ~/Lab/env.fish
         ctf_info "Removed global env.fish"
     end
