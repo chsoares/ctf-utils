@@ -98,6 +98,26 @@ function _ctf_start
     end
     grep "^$ip" /etc/hosts --color=never
 
+    # Obsidian integration
+    if set -q OBSIDIAN
+        echo ""
+        ctf_info "Setting up Obsidian integration"
+        
+        # Create markdown file in box directory
+        touch $boxpwd/$box.md
+        
+        # Create hardlink in Obsidian Writeups directory
+        mkdir -p $OBSIDIAN/Writeups
+        ln $boxpwd/$box.md $OBSIDIAN/Writeups/$box.md
+        ctf_info "Created hardlink: $OBSIDIAN/Writeups/$box.md"
+        
+        # Create symlink for context
+        ln -sf $boxpwd $OBSIDIAN/Writeups/.context
+        ctf_info "Created symlink: $OBSIDIAN/Writeups/.context -> $boxpwd"
+    else
+        ctf_warn "OBSIDIAN environment variable not set. Skipping Obsidian integration."
+    end
+
     # Sync time
     echo ""
     ctf_info "Syncing time with target box"

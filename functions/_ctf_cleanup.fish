@@ -47,7 +47,13 @@ function _ctf_cleanup
 
 
 
-    # 5. Unset environment variables from global env.fish
+    # 5. Clean up Obsidian integration
+    if set -q OBSIDIAN; and test -L $OBSIDIAN/Writeups/.context
+        rm $OBSIDIAN/Writeups/.context
+        ctf_info "Removed Obsidian symlink: $OBSIDIAN/Writeups/.context"
+    end
+
+    # 6. Unset environment variables from global env.fish
     if test -f ~/Lab/env.fish
         ctf_info "Unsetting environment variables from global env.fish"
         
@@ -69,7 +75,7 @@ function _ctf_cleanup
 
     echo ""
 
-    # 6. Sync time with public NTP
+    # 7. Sync time with public NTP
     ctf_info "Syncing time with pool.ntp.org"
     sudo ntpdate pool.ntp.org
 
