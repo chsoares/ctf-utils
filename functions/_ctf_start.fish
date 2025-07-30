@@ -107,7 +107,7 @@ function _ctf_start
         touch $boxpwd/$box.md
         
         # Create hardlink in Obsidian Writeups directory
-        mkdir -p $OBSIDIANI/INFOSEC/Writeups
+        mkdir -p $OBSIDIAN/INFOSEC/Writeups
         ln $boxpwd/$box.md $OBSIDIAN/INFOSEC/Writeups/$box.md
         ctf_info "Created hardlink: $OBSIDIAN/INFOSEC/Writeups/$box.md"
         
