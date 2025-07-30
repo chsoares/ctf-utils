@@ -107,13 +107,13 @@ function _ctf_start
         touch $boxpwd/$box.md
         
         # Create hardlink in Obsidian Writeups directory
-        mkdir -p $OBSIDIAN/Writeups
-        ln $boxpwd/$box.md $OBSIDIAN/Writeups/$box.md
-        ctf_info "Created hardlink: $OBSIDIAN/Writeups/$box.md"
+        mkdir -p $OBSIDIANI/INFOSEC/Writeups
+        ln $boxpwd/$box.md $OBSIDIAN/INFOSEC/Writeups/$box.md
+        ctf_info "Created hardlink: $OBSIDIAN/INFOSEC/Writeups/$box.md"
         
         # Create symlink for context
-        ln -sf $boxpwd $OBSIDIAN/Writeups/.context
-        ctf_info "Created symlink: $OBSIDIAN/Writeups/.context -> $boxpwd"
+        ln -sf $boxpwd $OBSIDIAN/INFOSEC/Writeups/.context
+        ctf_info "Created symlink: $OBSIDIAN/INFOSEC/Writeups/.context -> $boxpwd"
     else
         ctf_warn "OBSIDIAN environment variable not set. Skipping Obsidian integration."
     end
