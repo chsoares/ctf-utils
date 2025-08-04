@@ -10,7 +10,24 @@ function _ctf_start
         end
     end
 
-    # === 2. Argument validation ===
+    # === 2. Git pull repositories ===
+    if set -q CTF_HOME; and test -d "$CTF_HOME/.git"
+        ctf_info "Updating CTF_HOME repository..."
+        pushd "$CTF_HOME" > /dev/null
+        git pull --quiet
+        popd > /dev/null
+        ctf_success "CTF_HOME updated"
+    end
+
+    if set -q EZPZ_HOME; and test -d "$EZPZ_HOME/.git"
+        ctf_info "Updating EZPZ_HOME repository..."
+        pushd "$EZPZ_HOME" > /dev/null
+        git pull --quiet
+        popd > /dev/null
+        ctf_success "EZPZ_HOME updated"
+    end
+
+    # === 3. Argument validation ===
     if test (count $argv) -ne 2
         ctf_error "Usage: start <boxname> <boxip>"
         return 1
@@ -22,13 +39,13 @@ function _ctf_start
     set -l box_dir $base_dir/$box
     set -l box_dir_zero $base_dir/0_$box
 
-    # === 3. IP validation ===
+    # === 4. IP validation ===
     if not string match -rq '^([0-9]{1,3}\.){3}[0-9]{1,3}$' -- $ip
         ctf_error "Invalid IP address: $ip"
         return 1
     end
 
-    # === 4. If box directory already exists ===
+    # === 5. If box directory already exists ===
     if test -d $box_dir
         ctf_info "Box directory already exists: $box_dir"
         cd $box_dir
@@ -61,7 +78,7 @@ function _ctf_start
         return 0
     end
 
-    # === 5. If box directory does NOT exist ===
+    # === 6. If box directory does NOT exist ===
     set -l arch_ip (ip a | grep tun0 | grep -oE "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" | head -n1)
     set -l url "http://$box.htb"
     set -l boxpwd $box_dir_zero
