@@ -33,6 +33,7 @@ function _ctf_cleanup
     if test -d $boxpwd
         mv $boxpwd $new_box_dir
         ctf_info "Moved $boxpwd to $new_box_dir"
+        echo ""
     else
         ctf_error "Box directory $boxpwd not found."
         return 1
@@ -48,9 +49,10 @@ function _ctf_cleanup
 
 
     # 5. Clean up Obsidian integration
-    if set -q OBSIDIAN; and test -L $OBSIDIAN/Writeups/.context
+    if set -q OBSIDIAN; and test -L $OBSIDIAN/INFOSEC/Writeups/.context
         rm $OBSIDIAN/Writeups/.context
-        ctf_info "Removed Obsidian symlink: $OBSIDIAN/Writeups/.context"
+        ctf_info "Removed Obsidian symlink: $OBSIDIAN/INFOSEC/Writeups/.context"
+        echo ""
     end
 
     # 6. Unset environment variables from global env.fish
@@ -71,9 +73,10 @@ function _ctf_cleanup
         # Remove global env file
         rm ~/Lab/env.fish
         ctf_info "Removed global env.fish"
+        echo ""
     end
 
-    echo ""
+    
 
     # 7. Sync time with public NTP
     ctf_info "Syncing time with pool.ntp.org"

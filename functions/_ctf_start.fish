@@ -60,7 +60,7 @@ function _ctf_start
 
         if test -f hosts.bak
             ctf_info "Restoring /etc/hosts from hosts.bak"
-            sudo cat hosts.bak | tee /etc/hosts
+            sudo tee /etc/hosts < hosts.bak
         else
             ctf_warn "hosts.bak not found in $box_dir"
         end
@@ -73,6 +73,14 @@ function _ctf_start
         else
             cd $box_dir_zero
         end
+
+        if set -q OBSIDIAN      
+        # Create symlink for context
+        ln -sf $boxpwd $OBSIDIAN/INFOSEC/Writeups/.context
+        ctf_info "Created symlink: $OBSIDIAN/INFOSEC/Writeups/.context -> $boxpwd"
+    else
+        ctf_warn "OBSIDIAN environment variable not set. Skipping Obsidian integration."
+    end
 
         ctf_header "Box '$box' environment restored!"
         return 0
