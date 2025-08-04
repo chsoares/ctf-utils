@@ -50,7 +50,7 @@ function _ctf_cleanup
 
     # 5. Clean up Obsidian integration
     if set -q OBSIDIAN; and test -L $OBSIDIAN/INFOSEC/Writeups/.context
-        rm $OBSIDIAN/Writeups/.context
+        rm $OBSIDIAN/INFOSEC/Writeups/.context
         ctf_info "Removed Obsidian symlink: $OBSIDIAN/INFOSEC/Writeups/.context"
         echo ""
     end
