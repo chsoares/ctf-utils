@@ -81,6 +81,7 @@ function _ctf_cleanup
     # 7. Sync time with public NTP
     ctf_info "Syncing time with pool.ntp.org"
     sudo ntpdate pool.ntp.org
+    sudo systemctl start --now systemd-timesyncd
 
     echo ""
     ctf_success "Cleanup complete!"

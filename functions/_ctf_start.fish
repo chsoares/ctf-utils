@@ -146,6 +146,7 @@ function _ctf_start
     # Sync time
     echo ""
     ctf_info "Syncing time with target box"
+    sudo systemctl stop systemd-timesyncd
     sudo ntpdate $ip
     echo ""
 
