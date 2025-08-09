@@ -12,19 +12,19 @@ function _ctf_start
 
     # === 2. Git pull repositories ===
     if set -q CTF_HOME; and test -d "$CTF_HOME/.git"
-        ctf_info "Updating CTF_HOME repository..."
+        ctf_info "Updating CTF repository..."
         pushd "$CTF_HOME" > /dev/null
         git pull --quiet
         popd > /dev/null
-        ctf_success "CTF_HOME updated"
+        ctf_success "CTF updated"
     end
 
     if set -q EZPZ_HOME; and test -d "$EZPZ_HOME/.git"
-        ctf_info "Updating EZPZ_HOME repository..."
+        ctf_info "Updating EZPZ repository..."
         pushd "$EZPZ_HOME" > /dev/null
         git pull --quiet
         popd > /dev/null
-        ctf_success "EZPZ_HOME updated"
+        ctf_success "EZPZ updated"
     end
 
     # === 3. Argument validation ===
@@ -75,9 +75,9 @@ function _ctf_start
         end
 
         if set -q OBSIDIAN      
-        # Create symlink for context
-        ln -sf $boxpwd $OBSIDIAN/INFOSEC/Writeups/.context
-        ctf_info "Created symlink: $OBSIDIAN/INFOSEC/Writeups/.context -> $boxpwd"
+        # Create hardlink for context
+        ln $boxpwd $OBSIDIAN/INFOSEC/Writeups/.context
+        ctf_info "Created hardlink: $OBSIDIAN/INFOSEC/Writeups/.context -> $boxpwd"
     else
         ctf_warn "OBSIDIAN environment variable not set. Skipping Obsidian integration."
     end
@@ -136,9 +136,9 @@ function _ctf_start
         ln $boxpwd/$box.md $OBSIDIAN/INFOSEC/Writeups/$box.md
         ctf_info "Created hardlink: $OBSIDIAN/INFOSEC/Writeups/$box.md"
         
-        # Create symlink for context
-        ln -sf $boxpwd $OBSIDIAN/INFOSEC/Writeups/.context
-        ctf_info "Created symlink: $OBSIDIAN/INFOSEC/Writeups/.context -> $boxpwd"
+        # Create hardlink for context
+        ln $boxpwd $OBSIDIAN/INFOSEC/Writeups/.context
+        ctf_info "Created hardlink: $OBSIDIAN/INFOSEC/Writeups/.context -> $boxpwd"
     else
         ctf_warn "OBSIDIAN environment variable not set. Skipping Obsidian integration."
     end
