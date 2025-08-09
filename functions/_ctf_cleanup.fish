@@ -46,15 +46,6 @@ function _ctf_cleanup
     #     ctf_warn "env.fish not found in $new_box_dir"
     # end
 
-
-
-    # 5. Clean up Obsidian integration
-    if set -q OBSIDIAN; and test -L $OBSIDIAN/INFOSEC/Writeups/.context
-        rm $OBSIDIAN/INFOSEC/Writeups/.context
-        ctf_info "Removed Obsidian symlink: $OBSIDIAN/INFOSEC/Writeups/.context"
-        echo ""
-    end
-
     # 6. Unset environment variables from global env.fish
     if test -f ~/Lab/env.fish
         ctf_info "Unsetting environment variables from global env.fish"
