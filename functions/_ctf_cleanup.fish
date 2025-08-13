@@ -57,7 +57,15 @@ function _ctf_cleanup
         for var in $env_vars
             if set -q $var
                 set -e $var
-                ctf_info "Unset variable: $var"
+                #ctf_info "Unset variable: $var"
+            end
+        end
+
+        set -l krb_vars KRB5_CONFIG KRB5CCNAME
+        for var in $krb_vars
+            if set -q $var
+                set -e $var
+                #ctf_info "Unset variable: $var"
             end
         end
         
