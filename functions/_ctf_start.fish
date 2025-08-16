@@ -74,6 +74,12 @@ function _ctf_start
             cd $box_dir_zero
         end
 
+        echo ""
+        ctf_info "Syncing time with target box"
+        sudo systemctl stop systemd-timesyncd
+        sudo ntpdate $ip
+        echo ""
+
         ctf_header "Box '$box' environment restored!"
         return 0
     end
@@ -120,13 +126,11 @@ function _ctf_start
         echo ""
         ctf_info "Setting up Obsidian integration"
         
-        # Create markdown file in box directory
-        touch $boxpwd/$box.md
-        
-        # Create hardlink in Obsidian Writeups directory
         mkdir -p $OBSIDIAN/INFOSEC/Writeups
-        ln $boxpwd/$box.md $OBSIDIAN/INFOSEC/Writeups/$box.md
-        ctf_info "Created hardlink: $OBSIDIAN/INFOSEC/Writeups/$box.md"
+        touch $OBSIDIAN/INFOSEC/Writeups/$box.md
+
+        ln -s $OBSIDIAN/INFOSEC/Writeups/$box.md $boxpwd/$box.md 
+        ctf_info "Created softlink: $OBSIDIAN/INFOSEC/Writeups/$box.md -> $boxpwd/$box.md"
         
     else
         ctf_warn "OBSIDIAN environment variable not set. Skipping Obsidian integration."
