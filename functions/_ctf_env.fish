@@ -13,9 +13,19 @@ function _ctf_env
 
     if test (count $argv) -eq 0
         if test -f ~/Lab/env.fish
-            cat ~/Lab/env.fish
+            ctf_info "Current env variables:"
+            cat ~/Lab/env.fish | while read -l line
+                if test -n "$line" && string match -q "set -gx *" $line
+                    set -l parts (string split " " $line)
+                    if test (count $parts) -ge 4
+                        set -l var $parts[3]
+                        set -l value $parts[4..-1]
+                        echo "$var -> $value"
+                    end
+                end
+            end
         else
-            ctf_warn "No global env.fish found."
+            ctf_info "No global env.fish found."
         end
         return
     end
