@@ -46,7 +46,27 @@ function _ctf_start
     end
 
     # === 5. If box directory already exists ===
-    if test -d $box_dir
+    if test -d $box_dir_zero
+        ctf_info "Active box directory already exists: $box_dir_zero"
+        cd $box_dir_zero
+        
+        if test -f env.fish
+            ctf_info "Sourcing environment variables from env.fish"
+            cp env.fish ~/Lab/env.fish
+            source env.fish
+        else
+            ctf_warn "env.fish not found in $box_dir_zero"
+        end
+        
+        echo ""
+        ctf_info "Syncing time with target box"
+        sudo systemctl stop systemd-timesyncd
+        sudo ntpdate $ip
+        echo ""
+        
+        ctf_header "Box '$box' environment restored!"
+        return 0
+    else if test -d $box_dir
         ctf_info "Box directory already exists: $box_dir"
         cd $box_dir
 
