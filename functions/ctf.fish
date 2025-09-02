@@ -1,7 +1,7 @@
 
 function ctf
     source "$CTF_HOME/functions/_ctf_colors.fish"
-    set -l commands start cleanup addhost env creds
+    set -l commands start cleanup addhost env creds sync
 
     if test (count $argv) -eq 0
         ctf_show_menu
@@ -23,6 +23,8 @@ function ctf
                 _ctf_env $argv
             case creds
                 _ctf_creds $argv
+            case sync
+                _ctf_sync $argv
         end
         return $status
     else
@@ -41,6 +43,7 @@ function ctf_show_menu
     echo "  addhost <ip> <host>    - Add or update /etc/hosts entry"
     echo "  env [set|edit] ...     - Manage box environment variables"
     echo "  creds <user> <pass>    - Add credentials to creds.txt"
+    echo "  sync <ip|--off>        - Sync time with target box or public NTP"
     echo ""
     ctf_info "Usage: ctf <command> [options]"
 end

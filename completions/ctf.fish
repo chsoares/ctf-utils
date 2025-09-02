@@ -4,6 +4,7 @@ complete -c ctf -f -n '__fish_use_subcommand' -a "cleanup"  -d "Cleanup and rese
 complete -c ctf -f -n '__fish_use_subcommand' -a "addhost"  -d "Add or update /etc/hosts entry"
 complete -c ctf -f -n '__fish_use_subcommand' -a "env"      -d "Manage box environment variables"
 complete -c ctf -f -n '__fish_use_subcommand' -a "creds"    -d "Add credentials to creds.txt"
+complete -c ctf -f -n '__fish_use_subcommand' -a "sync"     -d "Sync time with target box or public NTP"
 
 # ctf env subcommands
 complete -c ctf -n '__fish_seen_subcommand_from env' -f -a "set"  -d "Set or update a variable"
@@ -20,3 +21,7 @@ complete -c ctf -n '__fish_seen_subcommand_from start' -f -a "IP"  -d "Box IP ad
 # ctf creds arguments
 complete -c ctf -n '__fish_seen_subcommand_from creds' -f -a "USER" -d "Username"
 complete -c ctf -n '__fish_seen_subcommand_from creds' -f -a "PASS" -d "Password"
+
+# ctf sync arguments
+complete -c ctf -n '__fish_seen_subcommand_from sync' -f -a "IP"    -d "Target IP address to sync with"
+complete -c ctf -n '__fish_seen_subcommand_from sync' -f -a "--off" -d "Unsync and use public NTP"
