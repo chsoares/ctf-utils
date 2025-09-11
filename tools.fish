@@ -50,6 +50,7 @@ end
 install_yay_packages \
     bettercap \
     bind \
+    cupp-git \
     ffuf \
     fping \
     gdb \
@@ -68,6 +69,8 @@ install_yay_packages \
     ntp \
     openssh \
     openvpn \
+    openldap \
+    onesixtyone-git \
     pre2k-git \
     perl-image-exiftool \
     responder \
@@ -89,8 +92,10 @@ install_yay_packages \
 install_pipx_packages \
     git+https://github.com/Pennyw0rth/NetExec \
     git+https://github.com/login-securite/DonPAPI.git \
+    git+https://github.com/blacklanternsecurity/MANSPIDER \
     bloodyad \
     certipy-ad \
+    wesng \
     Devious-WinRM \
     evil-winrm-py \
     gpp-decrypt \
@@ -98,8 +103,79 @@ install_pipx_packages \
     mitm6 \
     sqlmap-websocket-proxy
 
+# Add user to wireshark group for packet capture permissions
+ctf_header "Configuring user permissions..."
+_ctf_spin sudo usermod -a -G wireshark $USER
+if test $status -eq 0
+    ctf_success "Added $USER to wireshark group"
+else
+    ctf_error "Failed to add $USER to wireshark group"
+end
+
+# Function to install git repositories
+function install_git_repos
+    ctf_header "Installing git repositories..."
+    
+    # Create /opt if it doesn't exist
+    if not test -d /opt
+        sudo mkdir -p /opt
+    end
+    
+    # Change to /opt directory
+    cd /opt
+    
+    # Install krbrelayx
+    if not test -d /opt/krbrelayx
+        _ctf_spin git clone https://github.com/dirkjanm/krbrelayx.git
+        if test $status -eq 0
+            sudo chown -R $USER:$USER /opt/krbrelayx
+            chmod +x /opt/krbrelayx/*.py
+            fish_add_path /opt/krbrelayx/
+            ctf_success "krbrelayx"
+        else
+            ctf_error "Failed to install krbrelayx"
+        end
+    else
+        ctf_success "krbrelayx (already exists)"
+    end
+    
+    # Install username-anarchy
+    if not test -d /opt/username-anarchy
+        _ctf_spin git clone https://github.com/urbanadventurer/username-anarchy.git
+        if test $status -eq 0
+            sudo chown -R $USER:$USER /opt/username-anarchy
+            chmod +x /opt/username-anarchy/username-anarchy
+            fish_add_path /opt/username-anarchy
+            ctf_success "username-anarchy"
+        else
+            ctf_error "Failed to install username-anarchy"
+        end
+    else
+        ctf_success "username-anarchy (already exists)"
+    end
+    
+    # Install penelope
+    if not test -d /opt/penelope
+        _ctf_spin git clone https://github.com/chsoares/penelope.git
+        if test $status -eq 0
+            sudo chown -R $USER:$USER /opt/penelope
+            ctf_success "penelope"
+        else
+            ctf_error "Failed to install penelope"
+        end
+    else
+        ctf_success "penelope (already exists)"
+    end
+end
+
+install_git_repos
+
 echo ""
 ctf_title "󰆧 ctf.fish curated tools installation completed!"
 echo ""
 echo "All tools have been installed."
 echo "You may need to restart your shell for some tools to be available in PATH."
+echo ""
+echo "Manual installation recommended:"
+echo "  - BurpSuite Professional: https://portswigger.net/burp/releases"
+echo "  - BloodHound Community Edition: https://bloodhound.specterops.io/get-started/quickstart/community-edition-quickstart"
