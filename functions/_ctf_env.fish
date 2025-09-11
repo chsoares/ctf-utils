@@ -11,6 +11,7 @@ function _ctf_env
 
     set -l boxenv $boxpwd/env.fish
 
+    # ctf env
     if test (count $argv) -eq 0
         if test -f $CTF_LAB/env.fish
             ctf_info "Current env variables:"
@@ -31,6 +32,8 @@ function _ctf_env
     end
 
     switch $argv[1]
+        
+        # ctf env set
         case set
             if test (count $argv) -ne 3
                 ctf_error "Usage: ctfenv set <var> <value>"
@@ -52,6 +55,8 @@ function _ctf_env
             cp $boxenv $CTF_LAB/env.fish
             source $CTF_LAB/env.fish
             ctf_info "Updated global env.fish"
+        
+        # ctf env edit
         case edit
             if test -f $boxenv
                 gnome-text-editor $boxenv

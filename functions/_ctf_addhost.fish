@@ -1,7 +1,6 @@
 function _ctf_addhost
     source "$CTF_HOME/functions/_ctf_colors.fish"
 
-    # === 1. Argument validation ===
     # Argument validation
     if test (count $argv) -lt 2
         ctf_error "Usage: addhost <ip> <hostname> [hostname2] [hostname3] ..."
