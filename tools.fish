@@ -19,7 +19,7 @@ function install_yay_packages
     if test (count $packages) -gt 0
         ctf_header "Installing yay packages..."
         for package in $packages
-            gum spin --spinner minidot --title " running..." --spinner.foreground 6 --title.foreground 4 -- yay -S --needed --noconfirm $package
+            _ctf_spin yay -S --needed --noconfirm $package
             if test $status -eq 0
                 ctf_success "$package"
             else
@@ -35,9 +35,9 @@ function install_pipx_packages
     
     if test (count $packages) -gt 0
         ctf_header "Installing pipx packages..."
-        gum spin --spinner minidot --title " running..." --spinner.foreground 6 --title.foreground 4 -- pipx ensurepath
+        _ctf_spin pipx ensurepath
         for package in $packages
-            gum spin --spinner minidot --title " running..." --spinner.foreground 6 --title.foreground 4 -- pipx install $package
+            _ctf_spin pipx install $package
             if test $status -eq 0
                 ctf_success "$package"
             else
