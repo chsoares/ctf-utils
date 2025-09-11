@@ -35,7 +35,7 @@ function ctf
 end
 
 function ctf_show_menu
-    ctf_title "ctf.fish - ctf environment helper 🍥"
+    ctf_banner
     echo ""
     echo "Available commands:"
     echo "  start <boxname> <ip>   - Start a new CTF box environment"

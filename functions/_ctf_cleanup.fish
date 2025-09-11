@@ -1,9 +1,10 @@
 function _ctf_cleanup
     source "$CTF_HOME/functions/_ctf_colors.fish"
+    ctf_banner
 
     # 0. Load global env if not already loaded
-    if test -f ~/Lab/env.fish
-        source ~/Lab/env.fish
+    if test -f $CTF_LAB/env.fish
+        source $CTF_LAB/env.fish
     else
         ctf_error "No global env.fish found. Are you in a CTF session?"
         return 1
@@ -11,10 +12,12 @@ function _ctf_cleanup
 
     cd ~
     
+    ctf_header "Cleaning up ctf environment"
+
     # 1. Backup /etc/hosts to box directory
     if test -d $boxpwd
         sudo cp /etc/hosts $boxpwd/hosts.bak
-        sudo chown chsoares:chsoares $boxpwd/hosts.bak
+        sudo chown $USER:$USER $boxpwd/hosts.bak
         ctf_info "Backed up /etc/hosts to $boxpwd/hosts.bak"
     else
         ctf_error "Box directory $boxpwd not found."
@@ -28,7 +31,7 @@ function _ctf_cleanup
     echo ""
 
     # 2. Move box directory from 0_<box> to <box>
-    set -l base_dir ~/Lab/boxes
+    set -l base_dir $CTF_LAB/boxes
     set -l new_box_dir $base_dir/$box
     if test -d $boxpwd
         mv $boxpwd $new_box_dir
@@ -39,19 +42,12 @@ function _ctf_cleanup
         return 1
     end
 
-    # # 3. Ensure env.fish is named correctly (should already be)
-    # if test -f $new_box_dir/env.fish
-    #     ctf_info "env.fish is present in $new_box_dir"
-    # else
-    #     ctf_warn "env.fish not found in $new_box_dir"
-    # end
-
-    # 6. Unset environment variables from global env.fish
-    if test -f ~/Lab/env.fish
+    # 3. Unset environment variables from global env.fish
+    if test -f $CTF_LAB/env.fish
         ctf_info "Unsetting environment variables from global env.fish"
         
         # Read env.fish and extract variable names
-        set -l env_vars (grep -E '^set -g[x]? ' ~/Lab/env.fish | sed -E 's/^set -g[x]? ([A-Za-z_][A-Za-z0-9_]*).*/\1/')
+        set -l env_vars (grep -E '^set -g[x]? ' $CTF_LAB/env.fish | sed -E 's/^set -g[x]? ([A-Za-z_][A-Za-z0-9_]*).*/\1/')
         
         # Unset each variable
         for var in $env_vars
@@ -70,7 +66,7 @@ function _ctf_cleanup
         end
         
         # Remove global env file
-        rm ~/Lab/env.fish
+        rm $CTF_LAB/env.fish
         ctf_info "Removed global env.fish"
         echo ""
     end
@@ -78,7 +74,7 @@ function _ctf_cleanup
     
 
     # 7. Sync time with public NTP
-    ctf_info "Syncing time with pool.ntp.org"
+    ctf_header "Syncing time with pool.ntp.org"
     sudo systemctl start systemd-timesyncd
     sudo ntpdate pool.ntp.org
 

@@ -7,22 +7,23 @@ set -l script_dir (dirname (realpath (status --current-filename)))
 
 # Source color functions
 source "$script_dir/functions/_ctf_colors.fish"
+sudo -v > /dev/null
 
-ctf_title "Installing CTF/Pentest Tools..."
+ctf_banner
+ctf_title "ctf.fish curated ctf & pentest packages"
 
 # Function to install yay packages
 function install_yay_packages
     set -l packages $argv
     
     if test (count $packages) -gt 0
-        ctf_info "Installing yay packages..."
+        ctf_header "Installing yay packages..."
         for package in $packages
-            ctf_cmd "yay -S --needed --noconfirm $package"
-            yay -S --needed --noconfirm $package
+            gum spin --spinner minidot --title " running..." --spinner.foreground 6 --title.foreground 4 -- yay -S --needed --noconfirm $package
             if test $status -eq 0
-                ctf_success "✓ $package"
+                ctf_success "$package"
             else
-                ctf_error "✗ Failed to install $package"
+                ctf_error "Failed to install $package"
             end
         end
     end
@@ -33,21 +34,19 @@ function install_pipx_packages
     set -l packages $argv
     
     if test (count $packages) -gt 0
-        ctf_info "Installing pipx packages..."
+        ctf_header "Installing pipx packages..."
+        gum spin --spinner minidot --title " running..." --spinner.foreground 6 --title.foreground 4 -- pipx ensurepath
         for package in $packages
-            ctf_cmd "pipx install $package"
-            pipx install $package
+            gum spin --spinner minidot --title " running..." --spinner.foreground 6 --title.foreground 4 -- pipx install $package
             if test $status -eq 0
-                ctf_success "✓ $package"
+                ctf_success "$package"
             else
-                ctf_error "✗ Failed to install $package"
+                ctf_error "Failed to install $package"
             end
         end
     end
 end
 
-# CTF/Pentest tools from yay -Qe
-ctf_header "Network & Web Tools via yay"
 install_yay_packages \
     bettercap \
     bind \
@@ -72,7 +71,6 @@ install_yay_packages \
     pre2k-git \
     perl-image-exiftool \
     responder \
-    ruby-evil-winrm \
     seclists \
     sqlmap \
     targetedkerberoast-git \
@@ -80,7 +78,6 @@ install_yay_packages \
     ufw \
     whatweb \
     wireshark-qt \
-    wpa_supplicant \
     wpscan \
     wscat \
     python-bloodhound-ce-git \
@@ -89,22 +86,20 @@ install_yay_packages \
     python-pipx \
     python-pwntools
 
-# CTF/Pentest tools from pipx list
-ctf_header "Python Tools via pipx"
 install_pipx_packages \
+    git+https://github.com/Pennyw0rth/NetExec \
+    git+https://github.com/login-securite/DonPAPI.git \
     bloodyad \
     certipy-ad \
     Devious-WinRM \
-    donpapi \
     evil-winrm-py \
     gpp-decrypt \
     ldapdomaindump \
     mitm6 \
-    netexec \
     sqlmap-websocket-proxy
 
 echo ""
-ctf_title "CTF Tools installation completed!"
+ctf_title "󰆧 ctf.fish curated tools installation completed!"
 echo ""
-ctf_info "All CTF/pentest tools have been installed."
-ctf_info "You may need to restart your shell for some tools to be available in PATH."
+echo "All tools have been installed."
+echo "You may need to restart your shell for some tools to be available in PATH."

@@ -12,12 +12,12 @@ function _ctf_sync
     set -l target $argv[1]
     
     if test "$target" = "--off"
-        ctf_info "Syncing time with pool.ntp.org"
+        ctf_header "Syncing time with pool.ntp.org"
         sudo systemctl start systemd-timesyncd
         sudo ntpdate pool.ntp.org
         ctf_success "Time synced with public NTP"
     else
-        ctf_info "Syncing time with target box ($target)"
+        ctf_header "Syncing time with target box ($target)"
         sudo systemctl stop systemd-timesyncd
         sudo ntpdate $target
         ctf_success "Time synced with $target"

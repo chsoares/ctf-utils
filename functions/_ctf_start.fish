@@ -1,30 +1,24 @@
 function _ctf_start
     source "$CTF_HOME/functions/_ctf_colors.fish"
-
-    # === 1. Dependency check ===
-    set -l dependencies ntpd gnome-text-editor
-    for dep in $dependencies
-        if not type -q $dep
-            ctf_error "Dependency '$dep' not found in PATH."
-            return 1
-        end
-    end
+    ctf_banner
 
     # === 2. Git pull repositories ===
     if set -q CTF_HOME; and test -d "$CTF_HOME/.git"
-        ctf_info "Updating ctf-utils repository..."
+        ctf_header "Updating ctf-utils repository..."
         pushd "$CTF_HOME" > /dev/null
         git pull --quiet
         popd > /dev/null
         ctf_success "ctf-utils updated"
+        echo
     end
 
     if set -q EZPZ_HOME; and test -d "$EZPZ_HOME/.git"
-        ctf_info "Updating ezpz repository..."
+        ctf_header "Updating ezpz repository..."
         pushd "$EZPZ_HOME" > /dev/null
         git pull --quiet
         popd > /dev/null
         ctf_success "ezpz updated"
+        echo
     end
 
     # === 3. Argument validation ===
@@ -35,7 +29,7 @@ function _ctf_start
 
     set -l box $argv[1]
     set -l ip $argv[2]
-    set -l base_dir ~/Lab/boxes
+    set -l base_dir $CTF_LAB/boxes
     set -l box_dir $base_dir/$box
     set -l box_dir_zero $base_dir/0_$box
 
@@ -45,41 +39,43 @@ function _ctf_start
         return 1
     end
 
+    ctf_header "Setting up ctf environment..."
+
     # === 5. If box directory already exists ===
     if test -d $box_dir_zero
         ctf_info "Active box directory already exists: $box_dir_zero"
         cd $box_dir_zero
         
         if test -f env.fish
-            ctf_info "Sourcing environment variables from env.fish"
-            cp env.fish ~/Lab/env.fish
+            ctf_header "Sourcing environment variables from env.fish"
+            tee $CTF_LAB/env.fish < env.fish 
             source env.fish
         else
             ctf_warn "env.fish not found in $box_dir_zero"
         end
         
         echo ""
-        ctf_info "Syncing time with target box"
+        ctf_header "Syncing time with target box"
         sudo systemctl stop systemd-timesyncd
         sudo ntpdate $ip
         echo ""
         
-        ctf_header "Box '$box' environment restored!"
+        ctf_success "Box '$box' environment restored! Happy hacking 😉"
         return 0
     else if test -d $box_dir
         ctf_info "Box directory already exists: $box_dir"
         cd $box_dir
 
         if test -f env.fish
-            ctf_info "Sourcing environment variables from env.fish"
-            cp env.fish ~/Lab/env.fish
+            ctf_header "Sourcing environment variables from env.fish"
+            tee $CTF_LAB/env.fish < env.fish 
             source env.fish
         else
             ctf_warn "env.fish not found in $box_dir"
         end
 
         if test -f hosts.bak
-            ctf_info "Restoring /etc/hosts from hosts.bak"
+            ctf_header "Restoring /etc/hosts from hosts.bak"
             sudo tee /etc/hosts < hosts.bak
         else
             ctf_warn "hosts.bak not found in $box_dir"
@@ -95,12 +91,12 @@ function _ctf_start
         end
 
         echo ""
-        ctf_info "Syncing time with target box"
+        ctf_header "Syncing time with target box"
         sudo systemctl stop systemd-timesyncd
         sudo ntpdate $ip
         echo ""
 
-        ctf_header "Box '$box' environment restored!"
+        ctf_success "Box '$box' environment restored! Happy hacking 😉"
         return 0
     end
 
@@ -141,28 +137,13 @@ function _ctf_start
     end
     grep "^$ip" /etc/hosts --color=never
 
-    # Obsidian integration
-    if set -q OBSIDIAN
-        echo ""
-        ctf_info "Setting up Obsidian integration"
-        
-        mkdir -p $OBSIDIAN/INFOSEC/Writeups
-        touch $OBSIDIAN/INFOSEC/Writeups/$box.md
-
-        ln -s $OBSIDIAN/INFOSEC/Writeups/$box.md $boxpwd/$box.md 
-        ctf_info "Created softlink: $OBSIDIAN/INFOSEC/Writeups/$box.md -> $boxpwd/$box.md"
-        
-    else
-        ctf_warn "OBSIDIAN environment variable not set. Skipping Obsidian integration."
-    end
-
     # Sync time
     echo ""
-    ctf_info "Syncing time with target box"
+    ctf_header "Syncing time with target box"
     sudo systemctl stop systemd-timesyncd
     sudo ntpdate $ip
     echo ""
 
-    ctf_success "Happy hacking! 😉"
-    source ~/Lab/env.fish
+    ctf_success "Box environment created! Happy hacking 😉"
+    source $CTF_LAB/env.fish
 end

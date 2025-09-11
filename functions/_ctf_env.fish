@@ -2,8 +2,8 @@ function _ctf_env
     source "$CTF_HOME/functions/_ctf_colors.fish"
     
     # 0. Load global env if not already loaded
-    if test -f ~/Lab/env.fish
-        source ~/Lab/env.fish
+    if test -f $CTF_LAB/env.fish
+        source $CTF_LAB/env.fish
     else
         ctf_error "No global env.fish found. Are you in a CTF session?"
         return 1
@@ -12,9 +12,9 @@ function _ctf_env
     set -l boxenv $boxpwd/env.fish
 
     if test (count $argv) -eq 0
-        if test -f ~/Lab/env.fish
+        if test -f $CTF_LAB/env.fish
             ctf_info "Current env variables:"
-            cat ~/Lab/env.fish | while read -l line
+            cat $CTF_LAB/env.fish | while read -l line
                 if test -n "$line" && string match -q "set -gx *" $line
                     set -l parts (string split " " $line)
                     if test (count $parts) -ge 4
@@ -49,13 +49,13 @@ function _ctf_env
                 echo $line >> $boxenv
                 ctf_info "Added $var to $boxenv"
             end
-            cp $boxenv ~/Lab/env.fish
-            source ~/Lab/env.fish
+            cp $boxenv $CTF_LAB/env.fish
+            source $CTF_LAB/env.fish
             ctf_info "Updated global env.fish"
         case edit
             if test -f $boxenv
                 gnome-text-editor $boxenv
-                cp $boxenv ~/Lab/env.fish
+                cp $boxenv $CTF_LAB/env.fish
                 ctf_info "Edited $boxenv and updated global env."
             else
                 ctf_error "$boxenv not found."
