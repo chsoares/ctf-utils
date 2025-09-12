@@ -74,6 +74,8 @@ install_yay_packages \
     pre2k-git \
     perl-image-exiftool \
     responder \
+    ruby-getoptlong \
+    ruby-resolv-replace \
     seclists \
     sqlmap \
     targetedkerberoast-git \
