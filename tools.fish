@@ -101,7 +101,6 @@ install_pipx_packages \
     gpp-decrypt \
     ldapdomaindump \
     mitm6 \
-    sqlmap-websocket-proxy
 
 # Add user to wireshark group for packet capture permissions
 ctf_header "Configuring user permissions..."
@@ -115,6 +114,7 @@ end
 # Function to install git repositories
 function install_git_repos
     ctf_header "Installing git repositories..."
+    sudo -v >/dev/null
     
     # Create /opt if it doesn't exist
     if not test -d /opt
@@ -126,7 +126,7 @@ function install_git_repos
     
     # Install krbrelayx
     if not test -d /opt/krbrelayx
-        _ctf_spin git clone https://github.com/dirkjanm/krbrelayx.git
+        _ctf_spin sudo git clone https://github.com/dirkjanm/krbrelayx.git
         if test $status -eq 0
             sudo chown -R $USER:$USER /opt/krbrelayx
             chmod +x /opt/krbrelayx/*.py
@@ -141,7 +141,7 @@ function install_git_repos
     
     # Install username-anarchy
     if not test -d /opt/username-anarchy
-        _ctf_spin git clone https://github.com/urbanadventurer/username-anarchy.git
+        _ctf_spin sudo git clone https://github.com/urbanadventurer/username-anarchy.git
         if test $status -eq 0
             sudo chown -R $USER:$USER /opt/username-anarchy
             chmod +x /opt/username-anarchy/username-anarchy
@@ -156,7 +156,7 @@ function install_git_repos
     
     # Install penelope
     if not test -d /opt/penelope
-        _ctf_spin git clone https://github.com/chsoares/penelope.git
+        _ctf_spin sudo git clone https://github.com/chsoares/penelope.git
         if test $status -eq 0
             sudo chown -R $USER:$USER /opt/penelope
             ctf_success "penelope"
